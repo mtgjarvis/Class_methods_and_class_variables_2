@@ -27,7 +27,7 @@ class BankAccount:
     def total_funds(cls):
         return sum(account.balance for account in cls.accounts)
 
-    # use the cls for calling callmethod level and 
+    # use the cls for calling callmethod level and .instance for referencing the intance method
     @classmethod
     def interest_time(cls):
         for account in cls.accounts:
