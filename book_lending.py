@@ -14,15 +14,16 @@ class Book:
         if self.lent_out():
             return False
         else:
+            self.due_date = Book.current_due_date()
             Book.on_shelf.remove(self)
             Book.on_loan.append(self)
-            self.due_date = Book.current_due_date()
             return True
 
     def return_to_library(self):
-        if self.lent_out:
-            Book.on_shelf.append(self)
-            Book.on_loan.remove(self)
+
+        if self.lent_out():
+            self.on_shelf.append(self)
+            self.on_loan.remove(self)
             return True
         else:
             return False
@@ -34,8 +35,8 @@ class Book:
             return True
 
     @classmethod
-    def create(cls, title, author, ISBN_code):
-        new_book = Book(title, author, ISBN_code)
+    def create(cls, title, author, isbn):
+        new_book = Book(title, author, isbn)
         cls.on_shelf.append(new_book)
         return new_book
 
@@ -59,7 +60,7 @@ class Book:
         random_book = random.choice(cls.on_shelf)
         return random_book
 
-new_book = Book('Blood Meridian', 'Cormac', 98989899999999999)
+
 sister_outsider = Book.create("Sister Outsider", "Audre Lorde", "9781515905431")
 aint_i = Book.create("Ain't I a Woman?", "Bell Hooks", "9780896081307")
 if_they_come = Book.create("If They Come in the Morning", "Angela Y. Davis", "0893880221")
@@ -77,5 +78,5 @@ print(sister_outsider.due_date) # 2017-02-25 20:52:20 -0500 (this value will be 
 print(len(Book.overdue())) # 0
 print(sister_outsider.return_to_library()) # True
 print(sister_outsider.lent_out()) # False
-print(len(Book.on_shelf)) # 2
+print(len(Book.on_shelf)) # 3
 print(len(Book.on_loan)) # 0
